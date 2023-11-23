@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+
+   <head>
+
+      <title>Tasks Service!</title>
+      <meta charset="utf-8"/>
+      <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+      <meta name="viewport" content="width=device-width, initial-scale=1"/>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+      
+      <link th:href="@{/css/favicon.ico}" rel="shortcut icon" />
+      
+      <link th:href="@{/webjars/bootstrap/css/bootstrap.css}" rel="stylesheet" />
+      <link th:href="@{/webjars/toastr/build/toastr.min.css}" rel="stylesheet" />
+      <link th:href="@{/webjars/jquery-form-validator/form-validator/theme-default.min.css}" rel="stylesheet"/>
+      <link th:href="@{/webjars/datatables/css/dataTables.bootstrap4.min.css}" rel="stylesheet" />
+      <link th:href="@{/webjars/font-awesome/web-fonts-with-css/css/fontawesome-all.css}" rel="stylesheet" />
+      <link th:href="@{/javascript-libs/noty/noty.css}" rel="stylesheet" />
+      <link th:href="@{/css/themes.css}" rel="stylesheet" />
+      <link th:href="@{/css/styles.css}" rel="stylesheet" />
+      
+      <script th:src="@{/react-libs/react.development.js}"></script>
+      <script th:src="@{/react-libs/react-dom.development.js}"></script>
+      <script th:src="@{/react-libs/react-router.js}"></script>
+      <script th:src="@{/react-libs/react-router-dom.js}"></script>
+      <script th:src="@{/react-libs/redux.js}"></script>
+      <script th:src="@{/react-libs/react-redux.js}"></script>
+      <script th:src="@{/react-libs/babel.js}"></script>
+      
+      <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+      <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+      <script th:src="@{/webjars/toastr/build/toastr.min.js}"></script>
+      <script th:src="@{/webjars/datatables/js/jquery.dataTables.min.js}"></script>
+      <script th:src="@{/webjars/datatables/js/dataTables.bootstrap4.min.js}"></script>
+      <script th:src="@{/webjars/datatables-responsive/js/dataTables.responsive.js}"></script>
+      <script th:src="@{/webjars/datatables-responsive/js/responsive.bootstrap4.js}"></script>
+      <script th:src="@{/webjars/jquery-form-validator/form-validator/jquery.form-validator.min.js}"></script>
+      <script th:src="@{/javascript-libs/noty/noty.js}"></script>
+
+      
+      <base th:href="@{/}">
+      
+   </head>
+
+   <body>
+   
+      <div id='root'>
+         <div class="row w-100">
+            <div class="col text-center">
+               <i class="fa fa-spinner fa-spin fa-5x"></i>
+            </div>
+         </div>
+      </div>
+      
+      <script>
+         const reducers = {};
+
+         const registerReducer = (name, f) => {
+             reducers[name] = f;
+         };
+      </script>
+      
+      <script th:src="@{/application/common/Config.js}"></script>
+      <script th:src="@{/application/common/Jwt.js}"></script>
+      <script th:src="@{/application/common/Html.js}"></script>
+      <script th:src="@{/application/common/Alerts.js}"></script>
+      <script th:src="@{/application/common/PckeUtils.js}"></script>
+      
+      <script th:src="@{/application/backend/Fetch.js}"></script>
+      <script th:src="@{/application/backend/services/TaskService.js}"></script>
+      <script th:src="@{/application/backend/services/ProjectService.js}"></script>
+      <script th:src="@{/application/backend/services/UserService.js}"></script>
+      <script th:src="@{/application/backend/services/OAuthService.js}"></script>
+            
+      <script type="text/babel" th:src="@{/application/frontend/components/Loading.js}"></script>
+      <script type="text/babel" th:src="@{/application/frontend/components/Confirm.js}"></script>
+      <script type="text/babel" th:src="@{/application/frontend/components/ConfirmButton.js}"></script>
+      <script type="text/babel" th:src="@{/application/frontend/components/Warning.js}"></script>
+      <script type="text/babel" th:src="@{/application/frontend/components/Error.js}"></script>
+      <script type="text/babel" th:src="@{/application/frontend/components/Select.js}"></script>
+      <script type="text/babel" th:src="@{/application/frontend/components/NavbarItem.js}"></script>
+      <script type="text/babel" th:src="@{/application/frontend/components/Navbar.js}"></script>
+      <script type="text/babel" th:src="@{/application/frontend/components/Title.js}"></script>
+      <script type="text/babel" th:src="@{/application/frontend/components/Welcome.js}"></script>
+      
+      <script type="text/babel" th:src="@{/application/frontend/tasks/TasksTable.js}"></script>
+      <script type="text/babel" th:src="@{/application/frontend/tasks/Tasks.js}"></script>
+      <script type="text/babel" th:src="@{/application/frontend/tasks/MyTasks.js}"></script>
+      <script type="text/babel" th:src="@{/application/frontend/tasks/Task.js}"></script>
+      <script type="text/babel" th:src="@{/application/frontend/tasks/NewTask.js}"></script>
+      <script type="text/babel" th:src="@{/application/frontend/tasks/EditTask.js}"></script>
+      <script type="text/babel" th:src="@{/application/frontend/tasks/TaskForm.js}"></script>
+      
+      <script type="text/babel" th:src="@{/application/frontend/projects/Projects.js}"></script>
+      <script type="text/babel" th:src="@{/application/frontend/projects/NewProject.js}"></script>
+      <script type="text/babel" th:src="@{/application/frontend/projects/EditProject.js}"></script>
+      <script type="text/babel" th:src="@{/application/frontend/projects/ProjectForm.js}"></script>
+      <script type="text/babel" th:src="@{/application/frontend/projects/Project.js}"></script>
+      
+      <script type="text/babel" th:src="@{/application/frontend/users/Login.js}"></script>
+      <script type="text/babel" th:src="@{/application/frontend/users/OAuthLogin.js}"></script>
+      <script type="text/babel" th:src="@{/application/frontend/users/Reducer.js}"></script>
+      
+      <script type="text/babel" th:src="@{/application/Main.js}"></script>
+      <script type="text/babel" th:src="@{/application/App.js}"></script>
+       
+   </body>
+</html>
