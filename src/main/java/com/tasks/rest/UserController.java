@@ -61,12 +61,8 @@ public class UserController {
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        String token = null;
-        if("user1".equals(credentials.getUsername())) {
-            token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMSIsImV4cCI6MjMwOTYwNTA5NSwicm9sZXMiOlsiUk9MRV9VU0VSIl19.RqS_3sINVs5NO3nb18v27X1njHlEmJY0Qu_GWsqzpsc";
-        } else if("admin1".equals(credentials.getUsername())) {
-            token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbjEiLCJleHAiOjIzMDk2MDUxMzUsInJvbGVzIjpbIlJPTEVfQURNSU4iLCJST0xFX1VTRVIiXX0.0DFyKf_QNvpWgK0tFEdZymav7_4Ex-4KqRJxrzFe5rI";
-        }
+        UserDetails userDetails = userService.loadUserByUsername(credentials.getUsername());
+        String token = tokenProvider.generateHs256SignedToken(userDetails);
 
         return ResponseEntity.ok(new TokenResponse(token));
     }    
