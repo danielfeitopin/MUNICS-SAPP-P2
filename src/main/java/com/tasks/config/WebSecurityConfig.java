@@ -85,6 +85,20 @@ public class WebSecurityConfig {
                 .requestMatchers(HttpMethod.GET,  "/api/tasks/*").permitAll()
                 .requestMatchers(HttpMethod.GET,  "/api/comments/*").permitAll()
                 .requestMatchers(HttpMethod.POST,  "/api/login").permitAll()
+                /* REST API for projects */
+                .requestMatchers(HttpMethod.POST,  "/api/projects").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PUT,  "/api/projects/*").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE,  "/api/projects/*").hasRole("ADMIN")
+                /* REST API for tasks */
+                .requestMatchers(HttpMethod.POST,  "/api/tasks").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PUT,  "/api/tasks/*").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE,  "/api/tasks/*").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.POST,  "/api/tasks/*/changeState").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.POST,  "/api/tasks/*/changeResolution").hasRole("USER")
+                .requestMatchers(HttpMethod.POST,  "/api/tasks/*/changeProgress").hasRole("USER")
+                .requestMatchers(HttpMethod.POST,  "/api/comments").hasAnyRole("USER", "ADMIN")
+                /* REST API for users */
+                .requestMatchers(HttpMethod.GET,  "/api/users").hasRole("ADMIN")
                 /* Deny by default */
                 .anyRequest().denyAll());
 
