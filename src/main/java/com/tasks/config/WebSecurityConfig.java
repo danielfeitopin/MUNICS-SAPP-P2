@@ -65,7 +65,28 @@ public class WebSecurityConfig {
                 .requestMatchers(HttpMethod.GET,  "/swagger-ui.html").permitAll()
                 .requestMatchers(HttpMethod.GET,  "/swagger-ui/*").permitAll()
                 .requestMatchers(HttpMethod.GET,  "/v3/api-docs/**").permitAll()
-                .anyRequest().permitAll());
+                /* Views */
+                .requestMatchers(HttpMethod.GET,  "/dashboard").permitAll()
+                .requestMatchers(HttpMethod.GET,  "/dashboard/").permitAll()
+                /* Static Files */
+                .requestMatchers(HttpMethod.GET,  "/css/*").permitAll()
+                .requestMatchers(HttpMethod.GET,  "/react-libs/*").permitAll()
+                .requestMatchers(HttpMethod.GET,  "/javascript-libs/**").permitAll()
+                .requestMatchers(HttpMethod.GET,  "/webjars/**").permitAll()
+                .requestMatchers(HttpMethod.GET,  "/application/*").permitAll()
+                .requestMatchers(HttpMethod.GET,  "/application/common/*").permitAll()
+                .requestMatchers(HttpMethod.GET,  "/application/backend/**").permitAll()
+                .requestMatchers(HttpMethod.GET,  "/application/frontend/**").permitAll()
+                /* REST API without roles */
+                .requestMatchers(HttpMethod.GET,  "/api/projects").permitAll()
+                .requestMatchers(HttpMethod.GET,  "/api/projects/*").permitAll()
+                .requestMatchers(HttpMethod.GET,  "/api/projects/*/tasks").permitAll()
+                .requestMatchers(HttpMethod.GET,  "/api/tasks").permitAll()
+                .requestMatchers(HttpMethod.GET,  "/api/tasks/*").permitAll()
+                .requestMatchers(HttpMethod.GET,  "/api/comments/*").permitAll()
+                .requestMatchers(HttpMethod.POST,  "/api/login").permitAll()
+                /* Deny by default */
+                .anyRequest().denyAll());
 
         return http.build();
 
