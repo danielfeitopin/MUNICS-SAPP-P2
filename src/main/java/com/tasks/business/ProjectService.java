@@ -4,6 +4,7 @@ import com.tasks.business.entities.Project;
 import com.tasks.business.entities.User;
 import com.tasks.business.exceptions.DuplicatedResourceException;
 import com.tasks.business.exceptions.InstanceNotFoundException;
+import com.tasks.business.exceptions.PermissionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.tasks.business.repository.ProjectsRepository;
@@ -31,7 +32,7 @@ public class ProjectService {
             throw new UsernameNotFoundException(MessageFormat.format("User {0} does not exist", username));
         }
         if(projectsRepository.findByName(name) != null) {
-            throw new DuplicatedResourceException("Porject", name, 
+            throw new DuplicatedResourceException("Project", name,
                 MessageFormat.format("Project ''{0}'' already exists", name));
         }
         Project project = new Project();
@@ -44,10 +45,10 @@ public class ProjectService {
     }
 
     @Transactional
-    public Project update(Long projectId, String name, String description) 
-            throws DuplicatedResourceException, InstanceNotFoundException {
-        Optional<Project> project = projectsRepository.findById(projectId);
-        if(!project.isPresent()) {
+    public Project update(String callerName, Long projectId, String name, String description)
+            throws DuplicatedResourceException, InstanceNotFoundException, PermissionException {
+        Optional<Project> optProject = projectsRepository.findById(projectId);
+        if(!optProject.isPresent()) {
             throw new InstanceNotFoundException(projectId, "Project", 
                     MessageFormat.format("Project {0} does not exist", projectId));
         }
@@ -56,19 +57,29 @@ public class ProjectService {
             throw new DuplicatedResourceException("Project", name, 
                 MessageFormat.format("Project ''{0}'' already exists", name));
         }
-        project.get().setName(name);
-        project.get().setDescription(description);
-        project.get().setTimestamp(System.currentTimeMillis());
-        return projectsRepository.save(project.get());
+        Project project = optProject.get();
+        if (project.getAdmin().getUsername().equals(callerName)) {
+            project.setName(name);
+            project.setDescription(description);
+            project.setTimestamp(System.currentTimeMillis());
+            return projectsRepository.save(project);
+        } else {
+            throw new PermissionException();
+        }
     }
     
     @Transactional()
-    public void removeById(Long id) throws InstanceNotFoundException {
-        Optional<Project> optTask = projectsRepository.findById(id);
-        if(!optTask.isPresent()) {
+    public void removeById(String callerName, Long id) throws InstanceNotFoundException, PermissionException {
+        Optional<Project> optProject = projectsRepository.findById(id);
+        if(!optProject.isPresent()) {
             throw new InstanceNotFoundException(id, "Project" , MessageFormat.format("Project {0} does not exist", id));
         }
-        projectsRepository.delete(optTask.get());
+        Project project = optProject.get();
+        if (project.getAdmin().getUsername().equals(callerName)) {
+            projectsRepository.delete(project);
+        } else {
+            throw new PermissionException();
+        }
     }
     
     @Transactional(readOnly = true)

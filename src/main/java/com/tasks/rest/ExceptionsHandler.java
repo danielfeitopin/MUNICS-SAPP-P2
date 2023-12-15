@@ -1,8 +1,9 @@
 package com.tasks.rest;
 
 import com.tasks.business.exceptions.DuplicatedResourceException;
-import com.tasks.business.exceptions.InalidStateException;
+import com.tasks.business.exceptions.InvalidStateException;
 import com.tasks.business.exceptions.InstanceNotFoundException;
+import com.tasks.business.exceptions.PermissionException;
 import com.tasks.rest.json.ErrorDetailsResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,9 +27,9 @@ public class ExceptionsHandler {
         return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
     }
     
-    @ExceptionHandler(InalidStateException.class)
+    @ExceptionHandler(InvalidStateException.class)
     public final ResponseEntity<ErrorDetailsResponse> handleInvalidStateException(
-        InalidStateException ex, WebRequest request) {
+            InvalidStateException ex, WebRequest request) {
         logger.warn(ex.getMessage(), ex);
         ErrorDetailsResponse errorDetails = new ErrorDetailsResponse(System.currentTimeMillis(), "Invalid State", 
         ex.getMessage(), null, request.getContextPath(), 404);
@@ -42,5 +43,13 @@ public class ExceptionsHandler {
         ErrorDetailsResponse errorDetails = new ErrorDetailsResponse(System.currentTimeMillis(), "Duplicated Resource", 
         ex.getMessage(), null, request.getContextPath(), 404);
         return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(PermissionException.class)
+    public final ResponseEntity<ErrorDetailsResponse> handlePermissionException(PermissionException ex, WebRequest request) {
+        logger.warn(ex.getMessage(), ex);
+        ErrorDetailsResponse errorDetails = new ErrorDetailsResponse(System.currentTimeMillis(), "Not Allowed",
+        ex.getMessage(), null, request.getContextPath(), 403);
+        return new ResponseEntity<>(errorDetails, HttpStatus.FORBIDDEN);
     }
 }
