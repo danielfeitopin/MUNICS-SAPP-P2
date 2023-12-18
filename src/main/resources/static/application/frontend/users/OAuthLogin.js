@@ -6,10 +6,11 @@ var OAuthLogin = (props) => {
         const code = urlParams.get("code");
         // FIXME.
         // Get codeVerifier from sessionStorage.
-        const codeVerifier = '';
+        const codeVerifier = sessionStorage.getItem("codeVerifier");
 
         // FIXME.
         // Remove codeVerifier from sessionStorage.
+        sessionStorage.removeItem("codeVerifier");
 
         if (code && codeVerifier) {
 
@@ -18,6 +19,11 @@ var OAuthLogin = (props) => {
             tokenParams.set('grant_type', 'authorization_code');
             // FIXME.
             // Add rest of parameters to make the request to the token endpoint.
+            tokenParams.set("code", code);
+            tokenParams.set("redirect_uri", "http://127.0.0.1:8888/tasks-service/dashboard/loginOAuth");
+            tokenParams.set("grant_type", "authorization_code");
+            tokenParams.set("client_id", "tasks_app");
+            tokenParams.set("code_verifier", codeVerifier);
 
             oauthService.getToken(tokenParams,
                 response => {

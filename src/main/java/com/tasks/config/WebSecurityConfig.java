@@ -68,6 +68,7 @@ public class WebSecurityConfig {
                 /* Views */
                 .requestMatchers(HttpMethod.GET,  "/dashboard").permitAll()
                 .requestMatchers(HttpMethod.GET,  "/dashboard/").permitAll()
+                .requestMatchers(HttpMethod.GET,  "/dashboard/loginOAuth").permitAll() // OAuth
                 /* Static Files */
                 .requestMatchers(HttpMethod.GET,  "/css/*").permitAll()
                 .requestMatchers(HttpMethod.GET,  "/react-libs/*").permitAll()
